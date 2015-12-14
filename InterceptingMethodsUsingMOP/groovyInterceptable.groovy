@@ -1,3 +1,8 @@
+
+/*
+GroovyInterceptable是一个Marker Interface。这个接口存在的意义是：
+做切面。如果没有这个接口，则无法从语言层面支持AOP。
+*/
 class Car implements GroovyInterceptable{
     def start(){
         System.out.println("start() called")
@@ -12,7 +17,7 @@ class Car implements GroovyInterceptable{
     }
 
     def invokeMethod(String name, args){
-        System.out.println("invokeMethod() called")
+        System.out.println("\ninvokeMethod() called")
         if(!name.equalsIgnoreCase("check")){
             Car.metaClass.invokeMethod(this,"check",args)
         }
@@ -31,14 +36,4 @@ car=new Car()
 car.start()
 car.driver()
 car.check()
-//println car.metaClass
-//car.metaClass.getMetaMethods().each{println it.getName()}
-/*
-println "getMetaMethods============================================"
-Car.metaClass.getMetaMethods().each{println it;println it.getName()}
-println "getMethods    ============================================"
-Car.metaClass.getMethods().each{println it;println it.getName()}
-println Car.metaClass.getMetaMethod("start")
-println Car.metaClass.getMetaMethod("split")
-//car.speed()
-*/
+car.accelerate()
