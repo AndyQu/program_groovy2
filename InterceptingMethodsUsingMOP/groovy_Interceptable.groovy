@@ -1,8 +1,15 @@
+/*
+目的：演示GroovyInterceptable的使用方法。
+
+GroovyInterceptable是一个Marker Interface。
+当一个类implement这个interface的时候，所有的方法调用都会被类的invokeMethod劫持。
+*/
 
 /*
-GroovyInterceptable是一个Marker Interface。这个接口存在的意义是：
-做切面。如果没有这个接口，则无法从语言层面支持AOP。
+GroovyInterceptable存在的意义是：从语言层面支持AOP。
+以Java为反例，只能使用框架（Aspectj、Spring）支持AOP。
 */
+
 class Car implements GroovyInterceptable{
     def start(){
         System.out.println("start() called")
@@ -21,15 +28,8 @@ class Car implements GroovyInterceptable{
         if(!name.equalsIgnoreCase("check")){
             Car.metaClass.invokeMethod(this,"check",args)
         }
+        //metaClass的invokeMethod默认实现，是能够调用到Car类所有方法的
         Car.metaClass.invokeMethod(this,name,args)
-        /*
-        def validMethod=Car.metaClass.getMetaMethod(name)
-        if(validMethod!=null){
-            validMethod.invoke(this,args)
-        }else{
-            Car.metaClass.invokeMethod(this,name,args)
-        }
-        */
     }
 }
 car=new Car()

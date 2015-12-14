@@ -1,0 +1,10 @@
+Groovy语言对AOP进行了天然的支持。当一个函数被调用时，搜索优先级由高到低分别为：
+1. class自己的invokeMethod（在implement GroovyInterceptable接口的情况下）
+2. metaClass的invokeMethod
+3. metaClass、class定义的函数
+5. metaClass、class定义的closure类型property
+6. class的methodMissing函数
+7. class的invokeMethod函数
+8. 如果在以上范围内都没有找到，则抛出MissingMethodException
+
+groovy_interceptable.groovy、intercept_metaClass.groovy两个文件简单演示了AOP功能。
