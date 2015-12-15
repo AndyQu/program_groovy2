@@ -1,5 +1,5 @@
 /*
-目的：演示使用Category方法注入方法
+目的：演示使用Category（及Annotation）注入方法
 引入Category模式的意义：
 1. 能够控制“被注入方法的影响范围”
 2. 不同的Category可以被组合、嵌套。例如本文件中的StringUtil、Helper
@@ -61,3 +61,16 @@ try{
     println e
 }
 
+@Category(String)
+class StringUtilAnno{
+    def toSSN(){
+        if(this.size()==9){
+            "${this[0..2]}-${this[3..5]}-${this[6..8]}"
+        }else{
+            "not a SSN:"+this
+        }
+    }
+}
+use(StringUtilAnno){
+    println "abcdefghi".toSSN()
+}
