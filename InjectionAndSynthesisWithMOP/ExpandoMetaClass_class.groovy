@@ -5,7 +5,7 @@
     注入static函数
     注入新constructor
     替换constructor
-
+Class
 */
 
 //注入新函数
