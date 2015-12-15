@@ -10,6 +10,9 @@ class Car{
 def c1=new Car()
 assert c1.metaClass==Car.metaClass
 
+c1.metaClass.f2={println "c1:f2"}
+c1.f2()
+
 /*
 注入新方法f1()到Car.metaClass。
 此时，Car.metaClass指向了新的instance。
@@ -30,3 +33,8 @@ try{
 def c2=new Car()
 assert c2.metaClass==Car.metaClass
 c2.f1()
+try{
+    c2.f2()
+}catch(MissingMethodException e){
+    println "c2 can't call f2(), because f2() is injected only into c1.metaClass."
+}
