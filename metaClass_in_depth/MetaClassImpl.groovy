@@ -4,6 +4,8 @@
 MetaClassImpl是metaClass的底层支持类，它提供了一系列显示的方法，使得上层封装类可以使用
 xxx.injectedMethod={...}的形式注入方法。它自己不支持这种注入。
 具体可查阅Groovy API：http://docs.groovy-lang.org/latest/html/gapi/
+
+class MetaClassImpl里面真正实现了getMethods()、getMetaMethods()
 */
 class Cat{}
 def a=new groovy.lang.MetaClassImpl(Cat)
@@ -19,5 +21,11 @@ b.say={->println "[say]"}
 println "[OK]\n\tcan inject method say() into HandleMetaClass class\n"
 println "getMetaMethods():\n\t"+b.getMetaMethods().find{it.name=="say"}
 println "getMethods():\n\t"+b.getMethods().find{it.name=="say"}
+
+println "\n\ngetMetaMethods():\n\n"
+b.getMetaMethods().each{println it}
+println "\n\ngetMethods():\n\n"
+b.getMethods().each{println it}
+
 def method=b.getMetaMethod("say")
 method.invoke(this)
