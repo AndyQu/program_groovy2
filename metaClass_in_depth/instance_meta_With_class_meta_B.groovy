@@ -16,7 +16,9 @@ log "[Person.metaClass] ${Person.metaClass}"
 
 /*
 注入shout()之后，jack的metaClass发生了变化。
-新的metaClass继承了Person.metaClass.methodMissing()方法。
+    新的metaClass继承了Person.metaClass.methodMissing()方法。
+    以后对于jack的方法调用，走的都是新的metaClass，而非Person.metaClass
+    
 第一次调用jack.tennis()时，tennis()方法不存在，于是代码运行
 到Person.getMetaClass()."${mname}"=......处，进行方法注入。
 但是，这里被注入的是Person Class的metaClass，而不是jack的metaClass。
