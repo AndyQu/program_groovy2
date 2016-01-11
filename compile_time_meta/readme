@@ -1,0 +1,3 @@
+groovyc  -d classes CodeCheck.groovy
+jar -cf checkcode.jar -C classes . -C manifest .
+groovyc -classpath checkcode.jar smelly.groovy
