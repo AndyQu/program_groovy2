@@ -46,8 +46,8 @@ class MyXmlBuilder{
             if(body!=null){
                 contextStack.push(currentNode)
                 body.setDelegate(this)
-                Object result=body.call()
-                currentNode.setValue(result)
+                body.call()
+                //currentNode.setValue(result)
                 contextStack.pop()
             }
         }
