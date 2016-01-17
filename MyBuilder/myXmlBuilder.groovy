@@ -24,8 +24,9 @@ class MyXmlBuilder{
 
             body.setDelegate(this)
             Object result = body.call()
-            parentNode.setValue(result)
-            show(parentNode,1)
+            //下面这一句会将parentNode的子节点全部覆盖掉
+            //parentNode.setValue(result)
+            show(contextStack.peek(),1)
         }else{
             //非root节点
             def currentNode=null
@@ -41,7 +42,7 @@ class MyXmlBuilder{
                     attrs
                 )
             }
-            contextStack.peek().append(currentNode)
+            def n=contextStack.peek()
             if(body!=null){
                 contextStack.push(currentNode)
                 body.setDelegate(this)
@@ -54,17 +55,23 @@ class MyXmlBuilder{
     def static show(Node n, int level){
         if(n!=null){
             1.upto(level){
-                print "  "
+                print "    "
             }
-            print n.name()
-            n.attributes.each{
+            print "<${n.name()}"
+            n.attributes().each{
                 k,v->
-                    print " $k:$v"
+                    print " '$k'='$v' "
             }
+            print ">"
             println()
-            n.children.each{
+            n.children().each{
                 show(it,level+1)
             }
+            1.upto(level){
+                print "    "
+            }
+            println "</${n.name()}>"
+
         }
     }
     def static fetchMap(args){
