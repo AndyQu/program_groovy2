@@ -4,6 +4,17 @@ import groovy.lang.Closure
 
 public class MyXmlBuilder{
     Stack<Node> contextStack=new Stack<Node>()
+    def comment = this
+    def leftShift(final String comment){
+        if(contextStack.size()>0){
+            //如果不注释下面一行，则新产生的Node会被添加两次到contextStack.peek()这个节点上
+            //new Node()时添加一次
+            //append（）调用时又添加一次
+            //contextStack.peek().append(
+                new Node(contextStack.peek(),"comment",["text":comment])
+            //)
+        }
+    }
     def methodMissing(String methodName, args){
         //最后一个参数是函数的body，即closure类型
         println "$methodName() missing:${args}"

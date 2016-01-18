@@ -24,10 +24,11 @@ println xmlDocument
 */
 builder=new MyXmlBuilder()
 builder.languages {
-        //comment << "Created using StreamingMarkupBuilder" 
+        comment << "Created using StreamingMarkupBuilder" 
         langs.each { 
             key, value ->
                 language(name: key) {
+                    comment << "this is language $key"
                     author(value)
             }
         }
