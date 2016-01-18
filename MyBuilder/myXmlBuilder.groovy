@@ -12,14 +12,16 @@ class MyXmlBuilder{
         Map attrs=fetchMap(args)
         Closure body=fetchClosure(args)
         def containedText=fetchFirstNoNamePara(args)
+        if(containedText!=null){
+            if(attrs==null)
+                attrs=["text":containedText]
+            else
+                //集合merge
+                attrs=attrs<<["text":containedText]
+        }
         if(contextStack.size() == 0){
             //root节点
-            def parentNode=null
-            if(args.size()==1){
-                parentNode=new Node(null,(Object)methodName)
-            }else{
-                parentNode=new Node(null,methodName,attrs)
-            }
+            def parentNode=new Node(null,methodName,attrs)
             contextStack.push(parentNode)
 
             body.setDelegate(this)
@@ -29,19 +31,11 @@ class MyXmlBuilder{
             show(contextStack.peek(),1)
         }else{
             //非root节点
-            def currentNode=null
-            if(args.size()==1){
-                currentNode=new Node(
-                    contextStack.peek(),
-                    (Object)methodName
-                )
-            }else{
-                currentNode=new Node(
+            def currentNode=new Node(
                     contextStack.peek(),
                     (Object)methodName,
                     attrs
                 )
-            }
             def n=contextStack.peek()
             if(body!=null){
                 contextStack.push(currentNode)
@@ -60,10 +54,17 @@ class MyXmlBuilder{
             print "<${n.name()}"
             n.attributes().each{
                 k,v->
-                    print " '$k'='$v' "
+                    if(!k.equalsIgnoreCase("text"))
+                        print " '$k'='$v' "
             }
-            print ">"
-            println()
+            print ">\n"
+            //没有contains()方法
+            if(n.attributes()?.containsKey("text")){
+                1.upto(level){
+                    print "    "
+                }
+                println(n.attributes().get("text"))
+            }
             n.children().each{
                 show(it,level+1)
             }
@@ -87,8 +88,8 @@ class MyXmlBuilder{
         }
     }
     def static fetchFirstNoNamePara(args){
-        for(int i=0; i< args.size()-1;i++){
-            if(! args[i] instanceof Map){
+        for(int i=0; i< args.size();i++){
+            if(args[i] instanceof String){
                 return args[i]
             }
         }
