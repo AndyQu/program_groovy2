@@ -2,7 +2,7 @@ import groovy.util.Node
 import java.util.Stack
 import groovy.lang.Closure
 
-class MyXmlBuilder{
+public class MyXmlBuilder{
     Stack<Node> contextStack=new Stack<Node>()
     def methodMissing(String methodName, args){
         //最后一个参数是函数的body，即closure类型
@@ -95,10 +95,4 @@ class MyXmlBuilder{
         }
         return null
     }
-}
-builder=new MyXmlBuilder()
-builder.languages{
-    language(name:"C++"){author("Stroustrup")}
-    language(name:"Java"){author("Gosling")}
-    language(name:"Lisp"){author("McCarthy")}
 }
